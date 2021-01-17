@@ -1,0 +1,26 @@
+version: '3'
+services:
+  todo_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: todo_app
+    ports:
+      - '8080:8080'
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=root:password@tcp(todo_db)/todo_db
+    volumes:
+      - '.:/todo'
+  db:
+    image: mysql:5.7
+    container_name: todo_db
+    environment:
+      MYSQL_DATABASE: todo_db
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - 3306:3306
+    volumes:
+      - ./todo_db:/var/lib/mysql
+      - ./seed:/seed
