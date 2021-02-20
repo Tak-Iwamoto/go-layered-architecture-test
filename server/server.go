@@ -31,6 +31,7 @@ func run(ctx context.Context) int {
 
 	select {
 	case <-termCh:
+		s.Stop(ctx)
 		return 0
 	case <-errCh:
 		return 1
