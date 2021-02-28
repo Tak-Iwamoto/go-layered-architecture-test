@@ -53,11 +53,8 @@ func (h *CreateTodoHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	t.PublicID = uuid.New().String()
-	if err := h.app.CreateTodo(r.Context(), t); err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
+	t.Id = uuid.New().String()
+	h.app.CreateTodo(r.Context(), t)
 
 	if err := json.NewEncoder(w).Encode(&t); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
